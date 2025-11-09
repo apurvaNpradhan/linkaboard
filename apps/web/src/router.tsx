@@ -1,7 +1,7 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 import Loader from "./components/loader";
 import "./index.css";
-import { routeTree } from "./routeTree.gen";
+import type { AppRouter } from "@linkaboard/api/routers/index";
 import {
 	QueryCache,
 	QueryClient,
@@ -10,7 +10,10 @@ import {
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import { toast } from "sonner";
-import type { AppRouter } from "@linkaboard/api/routers/index";
+import { DefaultCatchBoundary } from "./components/default-catch-boundary";
+import { DefaultLoader } from "./components/default-loader";
+import { DefaultNotFound } from "./components/default-not-found";
+import { routeTree } from "./routeTree.gen";
 import { TRPCProvider } from "./utils/trpc";
 
 export const queryClient = new QueryClient({
@@ -26,7 +29,10 @@ export const queryClient = new QueryClient({
 			});
 		},
 	}),
-	defaultOptions: { queries: { staleTime: 60 * 1000 } },
+	defaultOptions: {
+		queries: { staleTime: 60 * 1000 },
+		refetchOnWindowFocus: false,
+	},
 });
 
 const trpcClient = createTRPCClient<AppRouter>({
@@ -54,8 +60,9 @@ export const getRouter = () => {
 		scrollRestoration: true,
 		defaultPreloadStaleTime: 0,
 		context: { trpc, queryClient },
-		defaultPendingComponent: () => <Loader />,
-		defaultNotFoundComponent: () => <div>Not Found</div>,
+		defaultPendingComponent: DefaultLoader,
+		defaultErrorComponent: DefaultCatchBoundary,
+		defaultNotFoundComponent: DefaultNotFound,
 		Wrap: ({ children }) => (
 			<QueryClientProvider client={queryClient}>
 				<TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>

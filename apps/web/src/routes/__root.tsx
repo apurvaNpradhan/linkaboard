@@ -1,26 +1,23 @@
-import { Toaster } from "@/components/ui/sonner";
-
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import type { AppRouter } from "@linkaboard/api/routers/index";
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
+	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
-	createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import Header from "../components/header";
-import appCss from "../index.css?url";
-import type { QueryClient } from "@tanstack/react-query";
-
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
-import type { AppRouter } from "@linkaboard/api/routers/index";
-export interface RouterAppContext {
-	trpc: TRPCOptionsProxy<AppRouter>;
-	queryClient: QueryClient;
-}
+import { Toaster } from "@/components/ui/sonner";
+import appCss from "@/index.css?url";
+import { ThemeProvider } from "@/providers/theme-provider";
 
-export const Route = createRootRouteWithContext<RouterAppContext>()({
+export const Route = createRootRouteWithContext<{
+	queryClient: QueryClient;
+	trpc: TRPCOptionsProxy<AppRouter>;
+}>()({
 	head: () => ({
 		meta: [
 			{
@@ -31,34 +28,51 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "My App",
+				title: "Linkaboard",
 			},
-		],
-		links: [
 			{
-				rel: "stylesheet",
-				href: appCss,
+				name: "description",
+				content: "Manage links, articles and bookmarks for later.",
 			},
 		],
+		links: [{ rel: "stylesheet", href: appCss }],
 	}),
-
-	component: RootDocument,
+	component: RootComponent,
 });
 
-function RootDocument() {
+function RootComponent() {
 	return (
-		<html lang="en" className="dark">
+		<RootDocument>
+			<Outlet />
+		</RootDocument>
+	);
+}
+
+function RootDocument({ children }: { readonly children: React.ReactNode }) {
+	return (
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				<div className="grid h-svh grid-rows-[auto_1fr]">
-					<Header />
-					<Outlet />
-				</div>
-				<Toaster richColors />
-				<TanStackRouterDevtools position="bottom-left" />
-				<ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+				<ThemeProvider>
+					{children}
+					<Toaster richColors />
+				</ThemeProvider>
+
+				<TanStackDevtools
+					plugins={[
+						{
+							name: "TanStack Query",
+							render: <ReactQueryDevtoolsPanel />,
+						},
+						{
+							name: "TanStack Router",
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+					]}
+				/>
+
 				<Scripts />
 			</body>
 		</html>
