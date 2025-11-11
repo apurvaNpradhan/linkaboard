@@ -10,6 +10,14 @@ export const boardRouter = router({
 		const boards = await boardRepo.getAll({ userId: ctx.session.user.id });
 		return boards;
 	}),
+	byId: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.query(async ({ ctx, input }) => {
+			const board = await boardRepo.getByPublicId(input.id);
+			if (!board)
+				throw new TRPCError({ code: "NOT_FOUND", message: "Board not found" });
+			return board;
+		}),
 	create: protectedProcedure
 		.input(
 			InsertBoard.omit({

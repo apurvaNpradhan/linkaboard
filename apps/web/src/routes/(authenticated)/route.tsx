@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import Modal from "@/components/modal";
 import { getUser } from "@/functions/get-user";
 import { useModal } from "@/providers/modal-provider";
+import NewLinkForm from "@/view/board/components/new-link-form";
 import NewBoardForm from "@/view/boards/components/new-board-form";
 
 export const Route = createFileRoute("/(authenticated)")({
@@ -30,6 +31,15 @@ function RouteComponent() {
 					}}
 				>
 					<NewBoardForm />
+				</Modal>
+				<Modal
+					isVisible={isOpen && modalContentType === "CREATE_LINK"}
+					closeOnClickOutside={true}
+					dialogHeader={{
+						title: "Add Link",
+					}}
+				>
+					<NewLinkForm />
 				</Modal>
 			</>
 		);

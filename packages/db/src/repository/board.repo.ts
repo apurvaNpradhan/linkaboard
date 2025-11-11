@@ -8,6 +8,16 @@ export const getAll = async (args: { userId: string }) => {
 	});
 	return result;
 };
+
+export const getByPublicId = async (id: string) => {
+	const result = await db.query.boards.findFirst({
+		where: eq(boards.publicId, id),
+		with: {
+			links: true,
+		},
+	});
+	return result;
+};
 export const create = async (boardInput: InsertBoard) => {
 	const [result] = await db.insert(boards).values(boardInput).returning({
 		id: boards.id,
@@ -89,4 +99,14 @@ export const isBoardSlugAvailable = async (
 	});
 
 	return result === undefined;
+};
+
+export const getBoardIdByBoardPublicId = async (boardPublicId: string) => {
+	const result = await db.query.boards.findFirst({
+		columns: {
+			id: true,
+		},
+		where: eq(boards.publicId, boardPublicId),
+	});
+	return result ?? null;
 };

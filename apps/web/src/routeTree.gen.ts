@@ -14,6 +14,7 @@ import { Route as authenticatedRouteRouteImport } from './routes/(authenticated)
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
 import { Route as authenticatedDashboardRouteImport } from './routes/(authenticated)/dashboard'
 import { Route as authenticatedBoardsIndexRouteImport } from './routes/(authenticated)/boards/index'
+import { Route as authenticatedLinksIdRouteImport } from './routes/(authenticated)/links/$id'
 import { Route as authenticatedBoardsIdRouteImport } from './routes/(authenticated)/boards/$id'
 import { Route as publicauthSignInIndexRouteImport } from './routes/(public)/(auth)/sign-in/index'
 
@@ -42,6 +43,11 @@ const authenticatedBoardsIndexRoute =
     path: '/boards/',
     getParentRoute: () => authenticatedRouteRoute,
   } as any)
+const authenticatedLinksIdRoute = authenticatedLinksIdRouteImport.update({
+  id: '/links/$id',
+  path: '/links/$id',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
 const authenticatedBoardsIdRoute = authenticatedBoardsIdRouteImport.update({
   id: '/boards/$id',
   path: '/boards/$id',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof authenticatedDashboardRoute
   '/': typeof publicIndexRoute
   '/boards/$id': typeof authenticatedBoardsIdRoute
+  '/links/$id': typeof authenticatedLinksIdRoute
   '/boards': typeof authenticatedBoardsIndexRoute
   '/sign-in': typeof publicauthSignInIndexRoute
 }
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof authenticatedDashboardRoute
   '/': typeof publicIndexRoute
   '/boards/$id': typeof authenticatedBoardsIdRoute
+  '/links/$id': typeof authenticatedLinksIdRoute
   '/boards': typeof authenticatedBoardsIndexRoute
   '/sign-in': typeof publicauthSignInIndexRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/(authenticated)/dashboard': typeof authenticatedDashboardRoute
   '/(public)/': typeof publicIndexRoute
   '/(authenticated)/boards/$id': typeof authenticatedBoardsIdRoute
+  '/(authenticated)/links/$id': typeof authenticatedLinksIdRoute
   '/(authenticated)/boards/': typeof authenticatedBoardsIndexRoute
   '/(public)/(auth)/sign-in/': typeof publicauthSignInIndexRoute
 }
@@ -86,10 +95,18 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/'
     | '/boards/$id'
+    | '/links/$id'
     | '/boards'
     | '/sign-in'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/dashboard' | '/' | '/boards/$id' | '/boards' | '/sign-in'
+  to:
+    | '/login'
+    | '/dashboard'
+    | '/'
+    | '/boards/$id'
+    | '/links/$id'
+    | '/boards'
+    | '/sign-in'
   id:
     | '__root__'
     | '/(authenticated)'
@@ -97,6 +114,7 @@ export interface FileRouteTypes {
     | '/(authenticated)/dashboard'
     | '/(public)/'
     | '/(authenticated)/boards/$id'
+    | '/(authenticated)/links/$id'
     | '/(authenticated)/boards/'
     | '/(public)/(auth)/sign-in/'
   fileRoutesById: FileRoutesById
@@ -145,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedBoardsIndexRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/links/$id': {
+      id: '/(authenticated)/links/$id'
+      path: '/links/$id'
+      fullPath: '/links/$id'
+      preLoaderRoute: typeof authenticatedLinksIdRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(authenticated)/boards/$id': {
       id: '/(authenticated)/boards/$id'
       path: '/boards/$id'
@@ -165,12 +190,14 @@ declare module '@tanstack/react-router' {
 interface authenticatedRouteRouteChildren {
   authenticatedDashboardRoute: typeof authenticatedDashboardRoute
   authenticatedBoardsIdRoute: typeof authenticatedBoardsIdRoute
+  authenticatedLinksIdRoute: typeof authenticatedLinksIdRoute
   authenticatedBoardsIndexRoute: typeof authenticatedBoardsIndexRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedDashboardRoute: authenticatedDashboardRoute,
   authenticatedBoardsIdRoute: authenticatedBoardsIdRoute,
+  authenticatedLinksIdRoute: authenticatedLinksIdRoute,
   authenticatedBoardsIndexRoute: authenticatedBoardsIndexRoute,
 }
 
