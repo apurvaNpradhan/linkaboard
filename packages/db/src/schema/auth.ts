@@ -1,5 +1,7 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boards } from "./boards";
+import { links } from "./links";
 
 export const user = pgTable("user", {
 	id: text("id").primaryKey().default(sql`uuid_generate_v7()`),
@@ -50,3 +52,8 @@ export const verification = pgTable("verification", {
 	createdAt: timestamp("created_at"),
 	updatedAt: timestamp("updated_at"),
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+	boards: many(boards),
+	links: many(links),
+}));

@@ -1,0 +1,31 @@
+{
+	"name": "@linkaboard/shared",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./src/index.ts"
+		},
+		"./utils": {
+			"types": "./dist/utils/index.d.ts",
+			"default": "./src/utils/index.ts"
+		},
+		"./constants": {
+			"types": "./dist/constants/index.d.ts",
+			"default": "./src/constants/index.ts"
+		}
+	},
+	"devDependencies": {
+		"typescript": "catalog:"
+	},
+	"license": "ISC",
+	"packageManager": "pnpm@10.20.0",
+	"dependencies": {
+		"nanoid": "^5.1.6"
+	}
+}
