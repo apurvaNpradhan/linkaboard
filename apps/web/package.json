@@ -12,6 +12,9 @@
 	"dependencies": {
 		"@linkaboard/api": "workspace:*",
 		"@linkaboard/auth": "workspace:*",
+		"@linkaboard/shared": "workspace:*",
+		"@linkaboard/db": "workspace:*",
+		"@radix-ui/react-dialog": "^1.1.15",
 		"@tailwindcss/vite": "^4.1.17",
 		"@tanstack/react-devtools": "^0.8.1",
 		"@tanstack/react-form": "^1.23.8",

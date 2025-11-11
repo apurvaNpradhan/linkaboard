@@ -13,6 +13,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as authenticatedRouteRouteImport } from './routes/(authenticated)/route'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
 import { Route as authenticatedDashboardRouteImport } from './routes/(authenticated)/dashboard'
+import { Route as authenticatedBoardsIndexRouteImport } from './routes/(authenticated)/boards/index'
+import { Route as authenticatedBoardsIdRouteImport } from './routes/(authenticated)/boards/$id'
 import { Route as publicauthSignInIndexRouteImport } from './routes/(public)/(auth)/sign-in/index'
 
 const LoginRoute = LoginRouteImport.update({
@@ -34,6 +36,17 @@ const authenticatedDashboardRoute = authenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => authenticatedRouteRoute,
 } as any)
+const authenticatedBoardsIndexRoute =
+  authenticatedBoardsIndexRouteImport.update({
+    id: '/boards/',
+    path: '/boards/',
+    getParentRoute: () => authenticatedRouteRoute,
+  } as any)
+const authenticatedBoardsIdRoute = authenticatedBoardsIdRouteImport.update({
+  id: '/boards/$id',
+  path: '/boards/$id',
+  getParentRoute: () => authenticatedRouteRoute,
+} as any)
 const publicauthSignInIndexRoute = publicauthSignInIndexRouteImport.update({
   id: '/(public)/(auth)/sign-in/',
   path: '/sign-in/',
@@ -44,12 +57,16 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/dashboard': typeof authenticatedDashboardRoute
   '/': typeof publicIndexRoute
+  '/boards/$id': typeof authenticatedBoardsIdRoute
+  '/boards': typeof authenticatedBoardsIndexRoute
   '/sign-in': typeof publicauthSignInIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/dashboard': typeof authenticatedDashboardRoute
   '/': typeof publicIndexRoute
+  '/boards/$id': typeof authenticatedBoardsIdRoute
+  '/boards': typeof authenticatedBoardsIndexRoute
   '/sign-in': typeof publicauthSignInIndexRoute
 }
 export interface FileRoutesById {
@@ -58,19 +75,29 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/(authenticated)/dashboard': typeof authenticatedDashboardRoute
   '/(public)/': typeof publicIndexRoute
+  '/(authenticated)/boards/$id': typeof authenticatedBoardsIdRoute
+  '/(authenticated)/boards/': typeof authenticatedBoardsIndexRoute
   '/(public)/(auth)/sign-in/': typeof publicauthSignInIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/dashboard' | '/' | '/sign-in'
+  fullPaths:
+    | '/login'
+    | '/dashboard'
+    | '/'
+    | '/boards/$id'
+    | '/boards'
+    | '/sign-in'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/dashboard' | '/' | '/sign-in'
+  to: '/login' | '/dashboard' | '/' | '/boards/$id' | '/boards' | '/sign-in'
   id:
     | '__root__'
     | '/(authenticated)'
     | '/login'
     | '/(authenticated)/dashboard'
     | '/(public)/'
+    | '/(authenticated)/boards/$id'
+    | '/(authenticated)/boards/'
     | '/(public)/(auth)/sign-in/'
   fileRoutesById: FileRoutesById
 }
@@ -111,6 +138,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticatedDashboardRouteImport
       parentRoute: typeof authenticatedRouteRoute
     }
+    '/(authenticated)/boards/': {
+      id: '/(authenticated)/boards/'
+      path: '/boards'
+      fullPath: '/boards'
+      preLoaderRoute: typeof authenticatedBoardsIndexRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
+    '/(authenticated)/boards/$id': {
+      id: '/(authenticated)/boards/$id'
+      path: '/boards/$id'
+      fullPath: '/boards/$id'
+      preLoaderRoute: typeof authenticatedBoardsIdRouteImport
+      parentRoute: typeof authenticatedRouteRoute
+    }
     '/(public)/(auth)/sign-in/': {
       id: '/(public)/(auth)/sign-in/'
       path: '/sign-in'
@@ -123,10 +164,14 @@ declare module '@tanstack/react-router' {
 
 interface authenticatedRouteRouteChildren {
   authenticatedDashboardRoute: typeof authenticatedDashboardRoute
+  authenticatedBoardsIdRoute: typeof authenticatedBoardsIdRoute
+  authenticatedBoardsIndexRoute: typeof authenticatedBoardsIndexRoute
 }
 
 const authenticatedRouteRouteChildren: authenticatedRouteRouteChildren = {
   authenticatedDashboardRoute: authenticatedDashboardRoute,
+  authenticatedBoardsIdRoute: authenticatedBoardsIdRoute,
+  authenticatedBoardsIndexRoute: authenticatedBoardsIndexRoute,
 }
 
 const authenticatedRouteRouteWithChildren =

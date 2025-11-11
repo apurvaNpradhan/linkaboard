@@ -12,6 +12,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "@/index.css?url";
+import { ModalProvider } from "@/providers/modal-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 export const Route = createRootRouteWithContext<{
@@ -56,10 +57,11 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
 			</head>
 			<body>
 				<ThemeProvider>
-					{children}
-					<Toaster richColors />
+					<ModalProvider>
+						{children}
+						<Toaster richColors />
+					</ModalProvider>
 				</ThemeProvider>
-
 				<TanStackDevtools
 					plugins={[
 						{
