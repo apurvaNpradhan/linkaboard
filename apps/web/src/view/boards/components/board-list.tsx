@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Hash } from "lucide-react";
+import { Box, Hash } from "lucide-react";
 import Loader from "@/components/loader";
 import { useTRPC } from "@/utils/trpc";
 
@@ -27,7 +27,7 @@ export default function BoardList() {
 					className="group flex flex-row items-center rounded-sm px-2 py-1 hover:bg-primary/10"
 				>
 					<div className="flex flex-row items-center gap-4">
-						<Hash
+						<Box
 							className="h-5 w-5"
 							style={{
 								color: board.color,

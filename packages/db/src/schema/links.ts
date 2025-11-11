@@ -30,11 +30,12 @@ export const links = pgTable(
 		notes: text("notes"),
 		isRead: boolean("is_read").notNull().default(false),
 		isFavourite: boolean("is_favourite").notNull().default(false), // Fixed spelling
-		boardId: bigint("board_id", { mode: "number" })
-			.notNull()
-			.references(() => boards.id, {
+		boardId: bigint("board_id", { mode: "number" }).references(
+			() => boards.id,
+			{
 				onDelete: "cascade",
-			}),
+			},
+		),
 		createdBy: text("created_by")
 			.notNull()
 			.references(() => user.id, {
@@ -46,9 +47,6 @@ export const links = pgTable(
 	(table) => [
 		index("links_board_id_idx").on(table.boardId),
 		index("links_created_by_idx").on(table.createdBy),
-		uniqueIndex("links_user_url_idx")
-			.on(table.createdBy, table.url)
-			.where(sql`${table.deletedAt} IS NULL`),
 		index("links_is_read_idx").on(table.isRead),
 		index("links_is_favourite_idx").on(table.isFavourite),
 	],
@@ -69,20 +67,18 @@ export const linksRelations = relations(links, ({ one }) => ({
 
 export const SelectLink = createSelectSchema(links, {
 	createdAt: z.coerce.string(),
-	updatedAt: z.coerce.string(),
+	updatedAt: z.coerce.string().nullable(),
 	deletedAt: z.coerce.string().nullable(),
 });
 export type SelectLink = z.infer<typeof SelectLink>;
 
 export const InsertLink = createInsertSchema(links, {
 	url: UrlSchema,
-	title: NameSchema,
-	description: DescriptionSchema,
+	title: NameSchema.optional().nullable(),
+	description: DescriptionSchema.optional().nullable(),
 	imageUrl: UrlSchema.optional().nullable(),
 }).omit({
 	id: true,
-	createdBy: true,
-	boardId: true,
 	createdAt: true,
 	updatedAt: true,
 	deletedAt: true,

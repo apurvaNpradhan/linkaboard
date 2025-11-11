@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useModal } from "@/providers/modal-provider";
 import BoardList from "./components/board-list";
 
-export default function BoardPage() {
+export default function BoardsPage() {
 	const { openModal } = useModal();
 	const openCreateModal = () => {
 		openModal("CREATE_BOARD");
