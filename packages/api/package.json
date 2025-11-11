@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@linkaboard/auth": "workspace:*",
 		"@linkaboard/db": "workspace:*",
+		"@linkaboard/shared": "workspace:*",
 		"@trpc/client": "catalog:",
 		"@trpc/server": "catalog:",
 		"dotenv": "catalog:",
