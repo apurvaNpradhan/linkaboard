@@ -1,6 +1,6 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { db } from "..";
-import { boards, type InsertBoard, type UpdateBoard } from "../schema";
+import { boards, type InsertBoard, links, type UpdateBoard } from "../schema";
 
 export const getAll = async (args: { userId: string }) => {
 	const result = await db.query.boards.findMany({
@@ -13,7 +13,9 @@ export const getByPublicId = async (id: string) => {
 	const result = await db.query.boards.findFirst({
 		where: eq(boards.publicId, id),
 		with: {
-			links: true,
+			links: {
+				where: and(isNull(links.deletedAt)),
+			},
 		},
 	});
 	return result;
@@ -22,6 +24,7 @@ export const create = async (boardInput: InsertBoard) => {
 	const [result] = await db.insert(boards).values(boardInput).returning({
 		id: boards.id,
 		name: boards.name,
+		publicId: boards.publicId,
 	});
 	return result;
 };

@@ -10,12 +10,7 @@ import {
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import z from "zod";
 import { timestamps } from "../utils/reusables";
-import {
-	ColorSchema,
-	DescriptionSchema,
-	NameSchema,
-	SlugSchema,
-} from "../utils/validators";
+import { ColorSchema } from "../utils/validators";
 import { user } from "./auth";
 import { links } from "./links";
 
@@ -62,8 +57,6 @@ export const SelectBoard = createSelectSchema(boards, {
 export type SelectBoard = z.infer<typeof SelectBoard>;
 
 export const InsertBoard = createInsertSchema(boards, {
-	name: NameSchema,
-	description: DescriptionSchema,
 	color: ColorSchema,
 }).omit({
 	id: true,

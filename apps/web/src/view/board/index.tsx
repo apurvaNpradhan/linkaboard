@@ -6,6 +6,7 @@ import Container from "@/components/layout/container";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/providers/modal-provider";
+import { queryClient } from "@/router";
 import { useTRPC } from "@/utils/trpc";
 import LinkList from "./components/link-list";
 
@@ -25,6 +26,68 @@ export default function BoardPage() {
 			},
 		),
 	);
+
+	//Delete Link Mutation
+	const deleteLinkMutation = useMutation(
+		trpc.link.softDelete.mutationOptions({
+			onMutate: async (args, context) => {
+				queryClient.cancelQueries({
+					queryKey: trpc.board.byId.queryKey({
+						id,
+					}),
+				});
+
+				const prevData = context.client.getQueryData(
+					trpc.board.byId.queryKey({
+						id,
+					}),
+				);
+				if (prevData) {
+					context.client.setQueryData(
+						trpc.board.byId.queryKey({
+							id,
+						}),
+						(old) => {
+							if (!old) return prevData;
+							const updatedLinks = [
+								...old.links.filter((p) => p.publicId !== args.linkPublicId),
+							];
+							return {
+								...old,
+								links: updatedLinks,
+							};
+						},
+					);
+				}
+				return { prevState: prevData };
+			},
+
+			onError: (_err, _newLink, context) => {
+				queryClient.setQueryData(
+					trpc.board.byId.queryKey({
+						id,
+					}),
+					context?.prevState,
+				);
+				toast.error(_err.message);
+			},
+			onSuccess: (_data) => {
+				queryClient.invalidateQueries({
+					queryKey: trpc.board.byId.queryKey({
+						id,
+					}),
+				});
+				toast.success("Link deleted Successfully");
+			},
+		}),
+	);
+
+	const handleLinkDelete = async (id: string) => {
+		await deleteLinkMutation.mutateAsync({
+			linkPublicId: id,
+			deletedAt: new Date(),
+		});
+	};
 	const handleOpen = () => {
 		openModal("CREATE_LINK");
 	};
@@ -41,7 +104,7 @@ export default function BoardPage() {
 					</Button>
 				</div>
 
-				<LinkList links={data.links} />
+				<LinkList links={data.links} handleDelete={handleLinkDelete} />
 			</div>
 		</Container>
 	);

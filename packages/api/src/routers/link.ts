@@ -1,12 +1,29 @@
 import * as boardRepo from "@linkaboard/db/repository/board.repo";
 import * as linkRepo from "@linkaboard/db/repository/link.repo";
-import { InsertLink, links } from "@linkaboard/db/schema/links";
+import { InsertLink, UpdateLink } from "@linkaboard/db/schema/links";
 import { generateUID } from "@linkaboard/shared";
-import { TRPCError } from "@trpc/server";
 import z from "zod";
 import { protectedProcedure, router } from "..";
 
 export const linkRouter = router({
+	update: protectedProcedure
+		.input(
+			UpdateLink.extend({
+				publicId: z.string(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			const userId = ctx.session.user.id;
+			const linkData = await linkRepo.getLinkIdByBoardId(input.publicId);
+			if (linkData) {
+				const result = await linkRepo.update({
+					id: linkData.id,
+					userId,
+					...input,
+				});
+				return result;
+			}
+		}),
 	create: protectedProcedure
 		.input(
 			InsertLink.omit({
@@ -30,6 +47,7 @@ export const linkRouter = router({
 				const html = await response.text();
 				const resolvedUrl = response.url;
 				const metadata = await metascraper({ html, url: resolvedUrl || url });
+				console.log(metadata);
 				const result = await linkRepo.create({
 					boardId: boardData?.id,
 					createdBy: userId,
@@ -39,12 +57,12 @@ export const linkRouter = router({
 					description: metadata.description ?? input.description,
 					imageUrl: metadata.image,
 					favicon: metadata.favicon,
-					domain: metadata.domain,
-					notes: metadata.keywords,
+					domain: new URL(resolvedUrl || url).hostname,
+					notes: input.notes ?? null,
 					publicId: generateUID(),
 				});
 				return result;
-			} catch (e: any) {
+			} catch (_e: any) {
 				const result = await linkRepo.create({
 					boardId: boardData?.id,
 					createdBy: userId,
@@ -63,6 +81,29 @@ export const linkRouter = router({
 				//   cause: `${e}`,
 				//   message: "Error creating link",
 				// });
+			}
+		}),
+	softDelete: protectedProcedure
+		.input(
+			z.object({
+				linkPublicId: z.string(),
+				deletedAt: z.coerce.date(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			try {
+				const linkData = await linkRepo.getLinkIdByBoardId(input.linkPublicId);
+				const userId = ctx.session.user.id;
+				if (linkData) {
+					const result = await linkRepo.softDelete({
+						deletedAt: input.deletedAt,
+						linkId: linkData.id,
+						userId,
+					});
+					return result;
+				}
+			} catch (e) {
+				console.log(e);
 			}
 		}),
 });

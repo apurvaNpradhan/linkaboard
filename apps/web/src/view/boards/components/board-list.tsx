@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { Box, Hash } from "lucide-react";
+import { Box } from "lucide-react";
 import Loader from "@/components/loader";
 import { useTRPC } from "@/utils/trpc";
 
