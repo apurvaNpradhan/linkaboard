@@ -33,7 +33,7 @@ export default function NewBoardForm() {
 				await refetchBoards();
 				navigate({
 					to: "/boards/$id",
-					params: { id: board.id.toString() },
+					params: { id: board.publicId },
 				});
 				closeModal();
 			},
@@ -99,7 +99,7 @@ export default function NewBoardForm() {
 									onChange={(e) => field.handleChange(e.target.value)}
 									aria-invalid={!!field.state.meta.errors.length}
 								/>
-								{field.state.meta.errors.map((error, i) => (
+								{field.state.meta.errors.map((error, _i) => (
 									<p
 										key={error?.message}
 										className="mt-1 text-destructive text-sm"

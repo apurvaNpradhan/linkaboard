@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Container from "@/components/layout/container";
-import BoardPage from "@/view/boards";
+import BoardsPage from "@/view/boards";
 
 export const Route = createFileRoute("/(authenticated)/boards/")({
 	component: RouteComponent,
@@ -11,7 +11,7 @@ function RouteComponent() {
 		<Container>
 			{/*Temp spacing for header*/}
 			<div style={{ height: "100px" }} />
-			<BoardPage />
+			<BoardsPage />
 		</Container>
 	);
 }

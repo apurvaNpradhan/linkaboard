@@ -1,12 +1,7 @@
 // src/db/repositories/links.ts
 import { and, eq, isNull, sql } from "drizzle-orm";
 import { db } from "..";
-import {
-	type InsertLink,
-	links,
-	type SelectLink,
-	type UpdateLink,
-} from "../schema";
+import { type InsertLink, links, type UpdateLink } from "../schema";
 
 export const getAll = async (args: { userId: string; boardId?: number }) => {
 	const whereClause = and(
@@ -58,8 +53,8 @@ export const create = async (linkInput: InsertLink) => {
 
 export const update = async (
 	linkInput: UpdateLink & {
-		publicId: string;
 		userId: string;
+		id: number;
 	},
 ) => {
 	const [result] = await db
@@ -70,7 +65,7 @@ export const update = async (
 		})
 		.where(
 			and(
-				eq(links.publicId, linkInput.publicId),
+				eq(links.id, linkInput.id),
 				eq(links.createdBy, linkInput.userId),
 				isNull(links.deletedAt),
 			),
@@ -148,4 +143,13 @@ export const isLinkUrlAvailable = async (
 	ignoreLinkId?: number,
 ) => {
 	return isUrlUnique({ url, userId, ignoreLinkId });
+};
+export const getLinkIdByBoardId = async (publicId: string) => {
+	const result = await db.query.links.findFirst({
+		columns: {
+			id: true,
+		},
+		where: eq(links.publicId, publicId),
+	});
+	return result ?? null;
 };

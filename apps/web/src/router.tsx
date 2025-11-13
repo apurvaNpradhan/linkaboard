@@ -1,5 +1,4 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import Loader from "./components/loader";
 import "./index.css";
 import type { AppRouter } from "@linkaboard/api/routers/index";
 import {

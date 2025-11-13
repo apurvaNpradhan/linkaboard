@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useTRPC } from "@/utils/trpc";
 

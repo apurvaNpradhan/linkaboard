@@ -27,6 +27,7 @@ export default function NewLinkForm() {
 						id,
 					}),
 				});
+				closeModal();
 				const prevData = context.client.getQueryData(
 					trpc.board.byId.queryKey({
 						id,
@@ -132,7 +133,7 @@ export default function NewLinkForm() {
 			}}
 			className="flex h-full flex-col"
 		>
-			<div className="flex-1 space-y-6 overflow-y-auto p-6">
+			<div className="flex-1 space-y-6 overflow-y-auto">
 				<div className="space-y-2">
 					<form.Field name="url">
 						{(field) => (
@@ -147,7 +148,7 @@ export default function NewLinkForm() {
 									onChange={(e) => field.handleChange(e.target.value)}
 									aria-invalid={!!field.state.meta.errors.length}
 								/>
-								{field.state.meta.errors.map((error, i) => (
+								{field.state.meta.errors.map((error, _i) => (
 									<p
 										key={error?.message}
 										className="mt-1 text-destructive text-sm"

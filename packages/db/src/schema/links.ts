@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
 	bigint,
 	bigserial,
@@ -6,13 +6,12 @@ import {
 	index,
 	pgTable,
 	text,
-	uniqueIndex,
 	varchar,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { timestamps } from "../utils/reusables";
-import { DescriptionSchema, NameSchema, UrlSchema } from "../utils/validators";
+import { UrlSchema } from "../utils/validators";
 import { user } from "./auth";
 import { boards } from "./boards";
 
@@ -74,8 +73,6 @@ export type SelectLink = z.infer<typeof SelectLink>;
 
 export const InsertLink = createInsertSchema(links, {
 	url: UrlSchema,
-	title: NameSchema.optional().nullable(),
-	description: DescriptionSchema.optional().nullable(),
 	imageUrl: UrlSchema.optional().nullable(),
 }).omit({
 	id: true,
