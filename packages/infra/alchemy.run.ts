@@ -8,6 +8,7 @@ config({ path: "../../apps/web/.env" });
 const app = await alchemy("linkaboard");
 
 export const web = await Vite("web", {
+	name: "linkaboard",
 	cwd: "../../apps/web",
 	assets: "dist",
 	bindings: {

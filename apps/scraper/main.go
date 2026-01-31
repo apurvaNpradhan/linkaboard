@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"net/http/cookiejar"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -35,10 +36,20 @@ func scrapeHandler(c *gin.Context) {
 	log.Println("visiting", URL)
 
 	collector := colly.NewCollector(
-		colly.UserAgent("Mozilla/5.0 (compatible; linkaboardScraper/1.0)"),
+		colly.UserAgent(
+			"Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
+				"AppleWebKit/537.36 (KHTML, like Gecko) "+
+				"Chrome/122.0.0.0 Safari/537.36",
+		),
+		colly.AllowURLRevisit(),
 		colly.MaxDepth(1),
 	)
 
+	collector.SetCookieJar(&cookiejar.Jar{})
+	collector.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("Accept-Language", "en-US,en;q=0.9")
+		r.Headers.Set("Accept", "text/html,application/xhtml+xml")
+	})
 	p := &pageInfo{}
 
 	collector.OnResponse(func(r *colly.Response) {

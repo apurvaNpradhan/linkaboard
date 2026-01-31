@@ -16,6 +16,9 @@ export const auth = betterAuth({
 		enabled: true,
 	},
 	advanced: {
+		database: {
+			generateId: false,
+		},
 		defaultCookieAttributes: {
 			sameSite: "none",
 			secure: true,

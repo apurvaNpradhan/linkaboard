@@ -1,0 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { trpc } from "@/utils/trpc";
+
+export const Route = createFileRoute("/(authenticated)/dashboard")({
+	component: RouteComponent,
+});
+
+function RouteComponent() {
+	const privateData = useQuery(trpc.privateData.queryOptions());
+
+	return (
+		<div>
+			<h1>Dashboard</h1>
+			<p>API: {privateData.data?.message}</p>
+		</div>
+	);
+}
