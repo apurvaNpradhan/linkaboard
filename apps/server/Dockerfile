@@ -27,22 +27,12 @@ RUN bun build \
 ############################
 # Production stage
 ############################
-FROM debian:bookworm-slim
+FROM gcr.io/distroless/base
 
 WORKDIR /app
 
-# Install required dependencies for bun compiled binary
-RUN apt-get update && \
-  apt-get install -y --no-install-recommends \
-  ca-certificates \
-  && rm -rf /var/lib/apt/lists/*
 
-# Copy compiled binary from builder
 COPY --from=builder /build/apps/server/server .
-
-# Make it executable
-RUN chmod +x ./server
-
 EXPOSE 3000
 
 CMD ["./server"]
