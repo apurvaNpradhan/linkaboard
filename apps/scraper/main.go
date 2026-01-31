@@ -44,8 +44,6 @@ func scrapeHandler(c *gin.Context) {
 		colly.AllowURLRevisit(),
 		colly.MaxDepth(1),
 	)
-
-	collector.SetCookieJar(&cookiejar.Jar{})
 	collector.OnRequest(func(r *colly.Request) {
 		r.Headers.Set("Accept-Language", "en-US,en;q=0.9")
 		r.Headers.Set("Accept", "text/html,application/xhtml+xml")
