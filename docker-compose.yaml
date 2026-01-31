@@ -26,6 +26,7 @@ services:
       - SCRAPER_URL=http://scraper:8080
       - SCRAPPER_URL=http://scraper:8080
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - CORS_ORIGIN=${CORS_ORIGIN}
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
