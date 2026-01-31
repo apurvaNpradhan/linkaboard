@@ -1,0 +1,25 @@
+{
+	"name": "@linkaboard/auth",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"scripts": {},
+	"dependencies": {
+		"@better-auth/expo": "catalog:",
+		"@linkaboard/db": "workspace:*",
+		"@linkaboard/env": "workspace:*",
+		"better-auth": "catalog:",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@linkaboard/config": "workspace:*",
+		"typescript": "catalog:"
+	}
+}

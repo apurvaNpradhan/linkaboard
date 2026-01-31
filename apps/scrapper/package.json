@@ -1,0 +1,10 @@
+{
+	"name": "@linkaboard/scrapper",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "go run main.go"
+	},
+	"dependencies": {},
+	"devDependencies": {}
+}

@@ -1,0 +1,3 @@
+{
+	"extends": "@linkaboard/config/tsconfig.base.json"
+}
