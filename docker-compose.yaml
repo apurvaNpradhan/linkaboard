@@ -6,7 +6,7 @@ services:
       context: ./apps/scraper
       dockerfile: Dockerfile
     container_name: linkaboard-scraper
-    ports:
+    expose:
       - "8080"
     environment:
       - NODE_ENV=production
@@ -19,13 +19,12 @@ services:
       context: .
       dockerfile: apps/server/Dockerfile
     container_name: linkaboard-server
-    ports:
+    expose:
       - "3000"
     environment:
       - NODE_ENV=production
-      - SCRAPER_URL=${SCRAPER_URL}
-      - SCRAPPER_URL=${SCRAPER_URL}
-      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - SCRAPER_URL=http://scraper:8080
+      - SCRAPPER_URL=http://scraper:8080
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
       - CORS_ORIGIN=${CORS_ORIGIN}
       - DATABASE_URL=${DATABASE_URL}
