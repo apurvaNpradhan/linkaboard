@@ -1,4 +1,4 @@
-module scrapper.com
+module scraper.com
 
 go 1.25.5
 

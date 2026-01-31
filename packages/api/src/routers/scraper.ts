@@ -5,7 +5,7 @@ import { publicProcedure, router } from "..";
 
 export const scraperRouter = router({
 	health: publicProcedure.query(async () => {
-		const res = await fetch(`${env.SCRAPPER_URL}/v1/scraper/health`);
+		const res = await fetch(`${env.SCRAPER_URL}/v1/scraper/health`);
 
 		if (!res.ok) {
 			throw new Error(`Health check failed: ${res.status}`);
@@ -24,7 +24,7 @@ export const scraperRouter = router({
 			}),
 		)
 		.mutation(async ({ input }) => {
-			const res = await fetch(`${env.SCRAPPER_URL}/v1/scraper/run`, {
+			const res = await fetch(`${env.SCRAPER_URL}/v1/scraper/run`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
