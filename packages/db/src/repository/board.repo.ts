@@ -19,6 +19,17 @@ export const boardRepo = {
 				updatedAt: true,
 				deletedAt: true,
 			},
+			with: {
+				pins: {
+					columns: {
+						data: true,
+						position: true,
+						publicId: true,
+						updatedAt: true,
+						type: true,
+					},
+				},
+			},
 			where: (table, { eq }) => eq(table.createdBy, args.userId),
 			orderBy: desc(board.position),
 		});

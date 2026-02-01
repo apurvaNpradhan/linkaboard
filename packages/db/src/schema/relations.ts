@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { account, session, user } from "./auth";
 import { board } from "./board";
+import { pin } from "./pin";
 
 export const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
@@ -33,5 +34,13 @@ export const boardRelations = relations(board, ({ one, many }) => ({
 	}),
 	children: many(board, {
 		relationName: "projectParent",
+	}),
+	pins: many(pin),
+}));
+
+export const pinRelations = relations(pin, ({ one, many }) => ({
+	board: one(board, {
+		fields: [pin.boardId],
+		references: [board.id],
 	}),
 }));

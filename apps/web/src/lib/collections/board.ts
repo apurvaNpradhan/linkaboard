@@ -1,3 +1,4 @@
+import { BoardWithPinsSchema } from "@linkaboard/api/types/board";
 import { createCollection } from "@tanstack/db";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient, trpc, trpcClient } from "@/utils/trpc";

@@ -5,7 +5,14 @@ import {
 } from "@linkaboard/db/schema/board";
 import z from "zod";
 
+import { PinSchema } from "./pin";
+
 export const BoardSchema = SelectBoardSchema;
+
+export const BoardWithPinsSchema = BoardSchema.extend({
+	pins: z.array(PinSchema),
+});
+
 export const InsertBoardInput = InsertBoardSchema.omit({
 	parentId: true,
 	position: true,
@@ -28,5 +35,6 @@ export const UpdateBoardInput = UpdateBoardSchema.omit({
 });
 
 export type BoardType = z.infer<typeof BoardSchema>;
+export type BoardWithPinsType = z.infer<typeof BoardWithPinsSchema>;
 export type InsertBoardInputType = z.infer<typeof InsertBoardInput>;
 export type UpdateBoardInputType = z.infer<typeof UpdateBoardInput>;
