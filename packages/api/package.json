@@ -16,14 +16,17 @@
 	"dependencies": {
 		"@linkaboard/auth": "workspace:*",
 		"@linkaboard/db": "workspace:*",
+		"@linkaboard/shared": "workspace:*",
 		"@linkaboard/env": "workspace:*",
 		"@trpc/client": "catalog:",
 		"@trpc/server": "catalog:",
 		"dotenv": "catalog:",
+		"pg": "^8.18.0",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@linkaboard/config": "workspace:*",
+		"@types/pg": "^8.16.0",
 		"elysia": "catalog:",
 		"typescript": "catalog:"
 	}

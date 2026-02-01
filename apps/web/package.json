@@ -16,7 +16,11 @@
 		"@linkaboard/api": "workspace:*",
 		"@linkaboard/auth": "workspace:*",
 		"@linkaboard/env": "workspace:*",
+		"@tabler/icons-react": "^3.36.1",
 		"@tailwindcss/vite": "^4.0.15",
+		"@tanstack/db": "^0.5.25",
+		"@tanstack/query-core": "^5.90.20",
+		"@tanstack/query-db-collection": "^1.0.22",
 		"@tanstack/react-db": "^0.1.69",
 		"@tanstack/react-form": "^1.12.3",
 		"@tanstack/react-query": "catalog:",
@@ -32,11 +36,14 @@
 		"next-themes": "^0.4.6",
 		"react": "19.2.3",
 		"react-dom": "19.2.3",
+		"react-hook-form": "^7.71.1",
+		"react-textarea-autosize": "^8.5.9",
 		"shadcn": "^3.6.2",
 		"sonner": "^2.0.5",
 		"tailwind-merge": "^3.3.1",
 		"tw-animate-css": "^1.2.5",
-		"zod": "catalog:"
+		"zod": "catalog:",
+		"zustand": "^5.0.11"
 	},
 	"devDependencies": {
 		"@linkaboard/config": "workspace:*",

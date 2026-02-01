@@ -6,7 +6,7 @@ import { env } from "@linkaboard/env/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { Elysia } from "elysia";
 
-const app = new Elysia()
+const _app = new Elysia()
 	.use(
 		cors({
 			origin: env.CORS_ORIGIN,

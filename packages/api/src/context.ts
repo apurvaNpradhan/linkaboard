@@ -1,4 +1,5 @@
 import { auth } from "@linkaboard/auth";
+import { db } from "@linkaboard/db";
 import type { Context as ElysiaContext } from "elysia";
 
 export type CreateContextOptions = {
@@ -10,6 +11,7 @@ export async function createContext({ context }: CreateContextOptions) {
 		headers: context.request.headers,
 	});
 	return {
+		db,
 		session,
 	};
 }

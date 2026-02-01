@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
 });
 
 function HomeComponent() {
-	const healthCheck = useQuery(trpc.healthCheck.queryOptions());
+	const _healthCheck = useQuery(trpc.healthCheck.queryOptions());
 	const mutation = useMutation(trpc.scraperRouter.run.mutationOptions());
 
 	const [url, setUrl] = useState("");

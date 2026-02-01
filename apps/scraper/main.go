@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"net/http/cookiejar"
 	"os"
 
 	"github.com/gin-gonic/gin"
