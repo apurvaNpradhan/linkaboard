@@ -1,4 +1,3 @@
-import { BoardWithPinsSchema } from "@linkaboard/api/types/board";
 import { createCollection } from "@tanstack/db";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { queryClient, trpc, trpcClient } from "@/utils/trpc";
@@ -12,7 +11,7 @@ export const boardCollection = createCollection(
 		getKey: (item) => item.publicId,
 		onInsert: async ({ transaction }) => {
 			const newBoard = transaction.mutations[0].modified;
-			await trpcClient.board.create.mutate(newBoard);
+			return await trpcClient.board.create.mutate(newBoard);
 		},
 		onUpdate: async ({ transaction }) => {
 			const updatedBoard = transaction.mutations[0].modified;

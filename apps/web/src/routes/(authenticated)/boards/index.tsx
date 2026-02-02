@@ -41,6 +41,7 @@ function BoardList() {
 				return (
 					<li key={board.publicId}>
 						<Link
+							disabled={board.publicId.startsWith("optimistic-")}
 							to="/boards/$id"
 							params={{
 								id: board.publicId,

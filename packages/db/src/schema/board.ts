@@ -33,6 +33,9 @@ export const board = pgTable(
 		parentId: bigint("parent_id", { mode: "bigint" }).references(
 			(): AnyPgColumn => board.id,
 		),
+
+		colorCode: varchar("color_code", { length: 255 }).notNull(),
+		icon: varchar("icon", { length: 255 }).notNull(),
 		createdBy: uuid("created_by")
 			.notNull()
 			.references(() => user.id),

@@ -16,6 +16,8 @@ export const boardRepo = {
 				description: true,
 				position: true,
 				createdAt: true,
+				colorCode: true,
+				icon: true,
 				updatedAt: true,
 				deletedAt: true,
 			},
